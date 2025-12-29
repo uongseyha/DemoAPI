@@ -13,6 +13,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnnectionString")));
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -23,6 +24,7 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:4200"));
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

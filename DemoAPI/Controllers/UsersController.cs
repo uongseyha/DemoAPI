@@ -6,7 +6,7 @@ namespace DemoAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController(IUserService _userService) : ControllerBase
+    public class UsersController(IUserService _userService) : ControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> GetUsers()

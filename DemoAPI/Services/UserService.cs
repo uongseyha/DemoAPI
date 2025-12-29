@@ -11,7 +11,7 @@ namespace DemoAPI.Services
         {
             var user = new User
             {
-                UserName = userDto.UserName,
+                Username = userDto.Username,
                 Password = userDto.Password,
                 IsAdmin = userDto.IsAdmin
             };
@@ -22,7 +22,7 @@ namespace DemoAPI.Services
             return new UserDto
             {
                 Id = user.Id,
-                UserName = user.UserName,
+                Username = user.Username,
                 Password = user.Password,
                 IsAdmin = user.IsAdmin
             };
@@ -43,7 +43,7 @@ namespace DemoAPI.Services
             return await _context.Users.Select(u => new UserDto
             {
                 Id = u.Id,
-                UserName = u.UserName,
+                Username = u.Username,
                 Password = u.Password,
                 IsAdmin = u.IsAdmin
             })
@@ -58,7 +58,7 @@ namespace DemoAPI.Services
             return new UserDto
             {
                 Id = user.Id,
-                UserName = user.UserName,
+                Username = user.Username,
                 Password = user.Password,
                 IsAdmin = user.IsAdmin
             };
@@ -69,7 +69,7 @@ namespace DemoAPI.Services
             var user = await _context.Users.FindAsync(id);
             if (user == null) return null;
 
-            user.UserName = userDto.UserName;
+            user.Username = userDto.Username;
             user.Password = userDto.Password;
             user.IsAdmin = userDto.IsAdmin;
 
@@ -78,7 +78,7 @@ namespace DemoAPI.Services
             return new UserDto
             {
                 Id = user.Id,
-                UserName = user.UserName,
+                Username = user.Username,
                 Password = user.Password,
                 IsAdmin = user.IsAdmin
             };
