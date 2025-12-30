@@ -1,6 +1,6 @@
 ﻿using DemoAPI.Data;
 using DemoAPI.Dtos;
-using DemoAPI.Models;
+using DemoAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DemoAPI.Services

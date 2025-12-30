@@ -1,4 +1,6 @@
-﻿namespace DemoAPI.Models
+﻿using DemoAPI.Migrations;
+
+namespace DemoAPI.Entities
 {
     public class User
     {
@@ -6,6 +8,5 @@
         public string Password { get; set; }
         public string Username { get; set; }
         public bool IsAdmin { get; set; }
-
     }
 }

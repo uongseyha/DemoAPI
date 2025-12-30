@@ -1,5 +1,5 @@
 ﻿using DemoAPI.Dtos;
-using DemoAPI.Models;
+using DemoAPI.Entities;
 
 namespace DemoAPI.Services
 {
