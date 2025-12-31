@@ -42,7 +42,7 @@ namespace DemoAPI.Services
 
         public async Task<List<ProductDto>> GetAllAsync()
         {
-            return await _context.Products.Select(u => new ProductDto
+            return await _context.Products.OrderByDescending(p => p.Id).Select(u => new ProductDto
             {
                 Id = u.Id,
                 Title = u.Title,
