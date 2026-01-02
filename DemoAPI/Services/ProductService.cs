@@ -14,7 +14,9 @@ namespace DemoAPI.Services
                 Title = productDto.Title,
                 Price = productDto.Price,
                 CategoryId = productDto.CategoryId,
-                ImageUrl = productDto.ImageUrl
+                ImageUrl = productDto.ImageUrl,
+                CreatedOn = DateTime.UtcNow,
+                UpdatedOn = DateTime.UtcNow
             };
 
             _context.Products.Add(product);
@@ -42,13 +44,14 @@ namespace DemoAPI.Services
 
         public async Task<List<ProductDto>> GetAllAsync()
         {
-            return await _context.Products.OrderByDescending(p => p.Id).Select(u => new ProductDto
+            return await _context.Products.OrderByDescending(p => p.UpdatedOn).Select(u => new ProductDto
             {
                 Id = u.Id,
                 Title = u.Title,
                 Price = u.Price,
                 CategoryId = u.CategoryId,
-                ImageUrl = u.ImageUrl
+                ImageUrl = u.ImageUrl,
+                IsProtected = u.IsProtected
             })
             .ToListAsync();
         }
@@ -64,7 +67,8 @@ namespace DemoAPI.Services
                 Title = product.Title,
                 Price = product.Price,
                 CategoryId = product.CategoryId,
-                ImageUrl = product.ImageUrl
+                ImageUrl = product.ImageUrl,
+                IsProtected = product.IsProtected
             };
         }
 
@@ -77,6 +81,7 @@ namespace DemoAPI.Services
             product.Price = productDto.Price;
             product.CategoryId = productDto.CategoryId;
             product.ImageUrl = productDto.ImageUrl;
+            product.UpdatedOn = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 
