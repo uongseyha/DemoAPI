@@ -23,14 +23,14 @@ namespace DemoAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser(UserCreateDto dto)
+        public async Task<IActionResult> CreateUser(UserRequest dto)
         {
             var user = await _userService.CreateUserAsync(dto);
             return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, UserCreateDto dto)
+        public async Task<IActionResult> UpdateUser(int id, UserRequest dto)
         {
             var user = await _userService.UpdateUserAsync(id, dto);
             if (user == null) return NotFound();

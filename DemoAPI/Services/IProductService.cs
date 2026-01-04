@@ -4,10 +4,10 @@ namespace DemoAPI.Services
 {
     public interface IProductService
     {
-        public Task<ProductDto?> GetByIdAsync(int id);
-        public Task<List<ProductDto>> GetAllAsync();
-        public Task<ProductDto> CreateAsync(ProductCreateDto productDto);
-        public Task<ProductDto> UpdateAsync(int id, ProductCreateDto productDto);
+        public Task<ProductResponse?> GetByIdAsync(int id);
+        public Task<List<ProductResponse>> GetAllAsync();
+        public Task<ProductResponse> CreateAsync(ProductRequest productRequest);
+        public Task<ProductResponse> UpdateAsync(int id, ProductRequest productRequest);
         public Task<bool> DeleteAsync(int id);
     }
 }

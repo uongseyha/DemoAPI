@@ -24,14 +24,14 @@ namespace DemoAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProduct(ProductCreateDto dto)
+        public async Task<IActionResult> CreateProduct(ProductRequest dto)
         {
             var product = await _productService.CreateAsync(dto);
             return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, ProductCreateDto dto)
+        public async Task<IActionResult> UpdateProduct(int id, ProductRequest dto)
         {
             var product = await _productService.UpdateAsync(id, dto);
             if (product == null) return NotFound();

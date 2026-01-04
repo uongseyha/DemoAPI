@@ -2,7 +2,7 @@
 
 namespace DemoAPI.Dtos
 {
-    public class CategoryDto
+    public class CategoryResponse
     {
         public int Id { get; set; }
 

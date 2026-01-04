@@ -1,35 +1,21 @@
 ﻿using DemoAPI.Data;
 using DemoAPI.Dtos;
 using DemoAPI.Entities;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 
 namespace DemoAPI.Services
 {
     public class ProductService(AppDbContext _context) : IProductService
     {
-        public async Task<ProductDto> CreateAsync(ProductCreateDto productDto)
+        public async Task<ProductResponse> CreateAsync(ProductRequest productRequest)
         {
-            var product = new Product
-            {
-                Title = productDto.Title,
-                Price = productDto.Price,
-                CategoryId = productDto.CategoryId,
-                ImageUrl = productDto.ImageUrl,
-                CreatedOn = DateTime.UtcNow,
-                UpdatedOn = DateTime.UtcNow
-            };
+            var product = productRequest.Adapt<Product>();
 
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            return new ProductDto
-            {
-                Id = product.Id,
-                Price = product.Price,
-                Title = product.Title,
-                CategoryId = product.CategoryId,
-                ImageUrl = product.ImageUrl
-            };
+            return product.Adapt<ProductResponse>();
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -42,57 +28,36 @@ namespace DemoAPI.Services
             return true;
         }
 
-        public async Task<List<ProductDto>> GetAllAsync()
+        public async Task<List<ProductResponse>> GetAllAsync()
         {
-            return await _context.Products.OrderByDescending(p => p.UpdatedOn).Select(u => new ProductDto
-            {
-                Id = u.Id,
-                Title = u.Title,
-                Price = u.Price,
-                CategoryId = u.CategoryId,
-                ImageUrl = u.ImageUrl,
-                IsProtected = u.IsProtected
-            })
-            .ToListAsync();
+            return await _context.Products
+                .OrderByDescending(p => p.UpdatedOn)
+                .ProjectToType<ProductResponse>()
+                .ToListAsync();
         }
 
-        public async Task<ProductDto?> GetByIdAsync(int id)
+        public async Task<ProductResponse?> GetByIdAsync(int id)
         {
             var product = await _context.Products.FindAsync(id);
             if (product == null) return null;
 
-            return new ProductDto
-            {
-                Id = product.Id,
-                Title = product.Title,
-                Price = product.Price,
-                CategoryId = product.CategoryId,
-                ImageUrl = product.ImageUrl,
-                IsProtected = product.IsProtected
-            };
+            return product.Adapt<ProductResponse>();
         }
 
-        public async Task<ProductDto> UpdateAsync(int id, ProductCreateDto productDto)
+        public async Task<ProductResponse> UpdateAsync(int id, ProductRequest productRequest)
         {
             var product = await _context.Products.FindAsync(id);
             if (product == null) return null;
 
-            product.Title = productDto.Title;
-            product.Price = productDto.Price;
-            product.CategoryId = productDto.CategoryId;
-            product.ImageUrl = productDto.ImageUrl;
+            product.Title = productRequest.Title;
+            product.Price = productRequest.Price;
+            product.CategoryId = productRequest.CategoryId;
+            product.ImageUrl = productRequest.ImageUrl;
             product.UpdatedOn = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 
-            return new ProductDto
-            {
-                Id = product.Id,
-                Title = product.Title,
-                Price = product.Price,
-                CategoryId = product.CategoryId,
-                ImageUrl = product.ImageUrl
-            };
+            return product.Adapt<ProductResponse>();
         }
     }
 }

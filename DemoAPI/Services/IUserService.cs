@@ -5,10 +5,10 @@ namespace DemoAPI.Services
 {
     public interface IUserService
     {
-        public Task<UserDto?> GetUserByIdAsync(int id);
-        public Task<List<UserDto>> GetUsersAsync();
-        public Task<UserDto> CreateUserAsync(UserCreateDto userDto);
-        public Task<UserDto> UpdateUserAsync(int id, UserCreateDto userDto);
+        public Task<UserResponse?> GetUserByIdAsync(int id);
+        public Task<List<UserResponse>> GetUsersAsync();
+        public Task<UserResponse> CreateUserAsync(UserRequest userRequest);
+        public Task<UserResponse> UpdateUserAsync(int id, UserRequest userRequest);
         public Task<bool> DeleteUserAsync(int id);
     }
 }

@@ -5,7 +5,7 @@ namespace DemoAPI.Services
 {
     public interface ICategoryService
     {
-        public Task<CategoryDto?> GetByIdAsync(int id);
-        public Task<List<CategoryDto>> GetAllAsync();
+        public Task<CategoryResponse?> GetByIdAsync(int id);
+        public Task<List<CategoryResponse>> GetAllAsync();
     }
 }
