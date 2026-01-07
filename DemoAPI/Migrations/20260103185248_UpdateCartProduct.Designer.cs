@@ -4,6 +4,7 @@ using DemoAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DemoAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260103185248_UpdateCartProduct")]
+    partial class UpdateCartProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,6 +36,9 @@ namespace DemoAPI.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -41,7 +47,7 @@ namespace DemoAPI.Migrations
                     b.ToTable("Carts");
                 });
 
-            modelBuilder.Entity("DemoAPI.Entities.CartItem", b =>
+            modelBuilder.Entity("DemoAPI.Entities.CartProduct", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,7 +55,7 @@ namespace DemoAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CartId")
+                    b.Property<int?>("CartId")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductId")
@@ -62,9 +68,7 @@ namespace DemoAPI.Migrations
 
                     b.HasIndex("CartId");
 
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("CartItems");
+                    b.ToTable("CartProduct");
                 });
 
             modelBuilder.Entity("DemoAPI.Entities.Category", b =>
@@ -151,28 +155,16 @@ namespace DemoAPI.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DemoAPI.Entities.CartItem", b =>
+            modelBuilder.Entity("DemoAPI.Entities.CartProduct", b =>
                 {
-                    b.HasOne("DemoAPI.Entities.Cart", "Cart")
-                        .WithMany("CartItems")
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DemoAPI.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cart");
-
-                    b.Navigation("Product");
+                    b.HasOne("DemoAPI.Entities.Cart", null)
+                        .WithMany("CartProducts")
+                        .HasForeignKey("CartId");
                 });
 
             modelBuilder.Entity("DemoAPI.Entities.Cart", b =>
                 {
-                    b.Navigation("CartItems");
+                    b.Navigation("CartProducts");
                 });
 #pragma warning restore 612, 618
         }
